@@ -1,28 +1,21 @@
 <script setup lang="ts">
-import { cn } from '@/libs/utils';
+import { cn } from '@/libs/utils'
 
 const props = defineProps<{
-  text: string;
-  onClick: () => void;
-  color?: string;
-  class?: string;
-  variant?: string;
-  disabled?: Boolean;
-}>();
+  child?: string
+  onClick: () => void
+  variant?: string
+  disabled?: Boolean
+}>()
 
-const buttonClasses = cn(
-  'button',
-  `button--${props.variant}`,
-  {
-    'button--disabled': props.disabled
-  },
-  props.class
-);
+const buttonClasses = cn('button', `button--${props.variant}`, {
+  'button--disabled': props.disabled,
+})
 </script>
 
 <template>
-  <button :class="buttonClasses" type="button" @click="onClick">
-    {{ text }}
+  <button :class="[buttonClasses, $attrs.class]" type="button" @click="onClick" v-bind="$attrs">
+    <slot></slot>
   </button>
 </template>
 

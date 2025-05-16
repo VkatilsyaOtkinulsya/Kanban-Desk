@@ -1,19 +1,14 @@
-<script setup lang="ts">
-import Header from '@/components/Header.vue';
-import Footer from '@/components/Footer.vue';
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <div>
-    <Header title="Header" />
+  <div id="app-wrapper">
     <router-view />
-    <Footer title="Footer" />
   </div>
 </template>
 
 <style scoped>
-.logo {
-  width: 100px;
-  height: 100px;
+#app-wrapper {
+  display: inline-flex;
+  height: 100vh;
 }
 </style>

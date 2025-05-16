@@ -1,15 +1,15 @@
 <script setup lang="ts">
 defineProps<{
-  title: string;
-}>();
+  title: string
+}>()
 </script>
 
 <template>
-  <header>
+  <footer>
     <div class="container">
-      <div class="header-content">{{ title }}</div>
+      <div class="footer-content"><slot></slot></div>
     </div>
-  </header>
+  </footer>
 </template>
 
 <style scoped></style>
