@@ -1,18 +1,31 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import type { RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 
-import Main from '../pages/Main.vue';
+import Main from '../pages/Main.vue'
+import ClientProfile from '../pages/ClientProfile.vue'
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: Main
-  }
-];
+    component: Main,
+  },
+  {
+    path: '/account',
+    component: ClientProfile,
+  },
+  {
+    path: '/spaces/:id/',
+    component: Main,
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/',
+  },
+]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
-});
+  routes,
+})
 
-export default router;
+export default router
