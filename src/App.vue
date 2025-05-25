@@ -10,5 +10,6 @@
 #app-wrapper {
   display: inline-flex;
   height: 100vh;
+  width: 100%;
 }
 </style>
