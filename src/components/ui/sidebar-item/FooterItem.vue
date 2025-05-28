@@ -32,8 +32,8 @@ withDefaults(defineProps<Props>(), {
         <slot name="icon"></slot>
       </div>
       <p v-show="isOpened">{{ label }}</p>
+      <Tooltip id="link-tooltip" :text="tooltipText" role="tooltip" position="right" />
     </template>
-    <Tooltip id="link-tooltip" :text="tooltipText" role="tooltip" position="right" />
   </a>
 </template>
 

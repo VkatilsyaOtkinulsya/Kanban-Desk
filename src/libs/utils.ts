@@ -1,5 +1,5 @@
-import classNames from 'classnames';
+import classNames from 'classnames'
 
 export const cn = (...args: classNames.ArgumentArray) => {
-  return classNames(args.filter(Boolean));
-};
+  return classNames(args.filter(Boolean))
+}

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 
-import Main from '../pages/Main.vue'
+import Main from '../pages/Main/Main.vue'
 import ClientProfile from '../pages/ClientProfile.vue'
 
 const routes: RouteRecordRaw[] = [

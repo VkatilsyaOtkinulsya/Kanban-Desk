@@ -2,9 +2,11 @@
 import NavItem from '@/components/ui/sidebar-item/NavItem.vue'
 import Tooltip from '@/components/ui/tooltip/Tooltip.vue'
 import FooterItem from '@/components/ui/sidebar-item/FooterItem.vue'
+import Modal from '@/components/ui/modal/Modal.vue'
 import { ref } from 'vue'
 
 const isOpened = ref(false)
+const showModal = ref(false)
 
 const toggleSidebar = () => {
   isOpened.value = !isOpened.value
@@ -106,10 +108,17 @@ const toggleSidebar = () => {
           <div class="content__space-list">
             <div v-show="isOpened" class="space-list__title">Все пространства</div>
             <div class="space-list__add-space">
-              <button class="add-space__button">
+              <button
+                id="add-space-button show-modal"
+                @click="showModal = true"
+                class="add-space__button"
+              >
                 <div class="add-icon"></div>
                 <p v-show="isOpened">Добавить пространство</p>
               </button>
+              <Teleport to="body">
+                <Modal type="create" :show="showModal" @close="showModal = false"> </Modal>
+              </Teleport>
             </div>
           </div>
         </div>

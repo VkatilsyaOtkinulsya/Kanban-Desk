@@ -7,7 +7,7 @@ defineProps<{
 <template>
   <footer>
     <div class="container">
-      <div class="footer-content"><slot></slot></div>
+      <div class="footer-content"><slot name="content"></slot></div>
     </div>
   </footer>
 </template>
