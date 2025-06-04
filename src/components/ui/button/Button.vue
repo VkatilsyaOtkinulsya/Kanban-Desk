@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { cn } from '@/libs/utils'
+import { cn } from '@/libs/utils';
 
 const props = defineProps<{
-  child?: string
-  onClick: () => void
-  variant?: string
-  disabled?: Boolean
-}>()
+  child?: string;
+  variant?: string;
+  disabled?: Boolean;
+  onClick?: (e: Event) => void;
+}>();
 
 const buttonClasses = cn('button', `button--${props.variant}`, {
   'button--disabled': props.disabled,
-})
+});
 </script>
 
 <template>

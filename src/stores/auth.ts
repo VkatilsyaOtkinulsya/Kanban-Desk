@@ -1,47 +1,65 @@
+import axios, { AxiosError } from 'axios';
 import { defineStore } from 'pinia';
+import type { SignUpRequest, AuthResponse, UserInfo, FirebaseErrorResponse } from '@/types/auth.ts';
+import { ref } from 'vue';
 
-export const useAuthStore = defineStore('auth', {
-  state: () => ({
-    user: null as User | null,
-    token: null as string | null,
-  }),
-  actions: {
-    login(email: string, password: string) {
-      const user = {
-        id: '345398',
-        email,
-      };
-      const token = btoa(JSON.stringify(user));
+const API_KEY = import.meta.env.VITE_FIREBASE_API_KEY;
 
-      this.user = user;
-      this.token = token;
+export const useAuthStore = defineStore('auth', () => {
+  const userInfo = ref<UserInfo>({
+    token: '',
+    email: '',
+    refreshToken: '',
+    expiresIn: '',
+    userId: '',
+  });
 
-      localStorage.setItem('token', token);
-      document.cookie = `token=${token}; path=/; max-age=${60 * 60 * 24 * 30}`;
-    },
-    logout() {
-      this.user = null;
-      this.token = null;
-      localStorage.removeItem('token');
-      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
-    },
-    init() {
-      const token =
-        localStorage.getItem('token') || document.cookie.split('token=')[1]?.split(';')[0];
-      if (token) {
-        try {
-          const user = JSON.parse(atob(token));
-          this.user = user;
-          this.token = token;
-        } catch {
-          this.logout();
+  const error = ref<string>('');
+
+  const signup = async (payload: Omit<SignUpRequest, 'returnSecureToken'>) => {
+    error.value = '';
+    try {
+      const { data } = await axios.post<AuthResponse>(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
+        {
+          ...payload,
+          returnSecureToken: true,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
-      }
-    },
-  },
-});
+      );
+      userInfo.value = {
+        token: data.idToken,
+        email: data.email,
+        refreshToken: data.refreshToken,
+        expiresIn: data.expiresIn,
+        userId: data.localId,
+      };
+    } catch (err) {
+      const axiosError = err as AxiosError<FirebaseErrorResponse>;
 
-interface User {
-  id: string;
-  email: string;
-}
+      if (!axiosError.response) {
+        error.value = 'Network error occurred';
+        return;
+      }
+
+      const firebaseError = axiosError.response.data.error;
+
+      switch (firebaseError.message) {
+        case 'EMAIL_EXISTS':
+          error.value = 'Пользователь с таким email уже существует';
+          break;
+        case 'OPERATION_NOT_ALLOWED':
+          error.value = 'Этот метод входа отключен в настройках Firebase';
+          break;
+        default:
+          error.value = 'Слишком много запросов. Попробуйте позже';
+          break;
+      }
+    }
+  };
+  return { signup, userInfo, error };
+});

@@ -1,33 +1,33 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import Input from '@/components/ui/input/Input.vue'
+import { ref } from 'vue';
+import Input from '@/components/ui/input/Input.vue';
 
 interface Props {
-  show: boolean
-  type: 'edit' | 'create'
-  field?: string
-  value?: string | number
-  header?: string[]
+  show: boolean;
+  type: 'edit' | 'create';
+  field?: string;
+  value?: string | number;
+  header?: string[];
 }
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
-const emit = defineEmits(['close', 'update', 'create'])
+const emit = defineEmits(['close', 'update', 'create']);
 
-const inputValue = ref(props.value || '')
+const inputValue = ref(props.value || '');
 
 const handleDackdropClick = (event: MouseEvent) => {
-  if (event.target === event.currentTarget) emit('close')
-}
+  if (event.target === event.currentTarget) emit('close');
+};
 
 const handleConfirm = () => {
   if (props.type === 'edit') {
-    emit('update', props.field, inputValue.value)
+    emit('update', props.field, inputValue.value);
   } else if (props.type === 'create') {
-    emit('create', { title: inputValue.value })
+    emit('create', { title: inputValue.value });
   }
-  emit('close')
-}
+  emit('close');
+};
 </script>
 
 <template>
@@ -49,7 +49,7 @@ const handleConfirm = () => {
             <Input
               v-model="inputValue"
               type="text"
-              :placeholder="
+              placeholder="
                 props.type === 'edit' ? `Введите ${props.field}` : 'Введите название пространства'
               "
               class="modal-input"
@@ -100,7 +100,6 @@ const handleConfirm = () => {
         display: block;
         font-size: 1.3rem;
         font-weight: 500;
-        cursor: pointer;
       }
 
       .modal-close-button {
