@@ -3,17 +3,14 @@ import type { RouteRecordRaw } from 'vue-router';
 
 import Main from '../pages/Main/Main.vue';
 import ClientProfile from '../pages/ClientProfile.vue';
-import SignUp from '../pages/SignUp/SignUp.vue';
+import SignUp from '../pages/Auth/SignUp.vue';
+import SignIn from '../pages/Auth/SignIn.vue';
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/',
+    path: '/main',
     name: 'main',
     component: Main,
-  },
-  {
-    path: '/account',
-    component: ClientProfile,
   },
   {
     path: '/signup',
@@ -21,8 +18,17 @@ const routes: RouteRecordRaw[] = [
     component: SignUp,
   },
   {
+    path: '/signin',
+    name: 'signin',
+    component: SignIn,
+  },
+  {
+    path: '/account',
+    component: ClientProfile,
+  },
+  {
     path: '/:pathMatch(.*)*',
-    redirect: '/',
+    redirect: '/signup',
   },
 ];
 

@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import NavItem from '@/components/ui/sidebar-item/NavItem.vue'
-import Tooltip from '@/components/ui/tooltip/Tooltip.vue'
-import FooterItem from '@/components/ui/sidebar-item/FooterItem.vue'
-import Modal from '@/components/ui/modal/Modal.vue'
-import { ref } from 'vue'
+import NavItem from '@/components/ui/sidebar-item/NavItem.vue';
+import Tooltip from '@/components/ui/tooltip/Tooltip.vue';
+import FooterItem from '@/components/ui/sidebar-item/FooterItem.vue';
+import Modal from '@/components/ui/modal/Modal.vue';
+import { ref } from 'vue';
 
-const isOpened = ref(false)
-const showModal = ref(false)
+const isOpened = ref(false);
+const showModal = ref(false);
 
 const toggleSidebar = () => {
-  isOpened.value = !isOpened.value
-}
+  isOpened.value = !isOpened.value;
+};
 </script>
 
 <template>
@@ -172,5 +172,5 @@ const toggleSidebar = () => {
 </template>
 
 <style scoped lang="scss">
-@import './LeftsideBar.module';
+@use './LeftsideBar.module';
 </style>

@@ -1,9 +1,9 @@
 import axios, { AxiosError } from 'axios';
 import { defineStore } from 'pinia';
-import type { SignUpRequest, AuthResponse, UserInfo, FirebaseErrorResponse } from '@/types/auth.ts';
+import type { SignUpRequest, AuthResponse, UserInfo } from '@/types/auth.ts';
 import { ref } from 'vue';
 
-const API_KEY = import.meta.env.VITE_FIREBASE_API_KEY;
+const VITE_FIREBASE_API_KEY = import.meta.env.VITE_FIREBASE_API_KEY;
 
 export const useAuthStore = defineStore('auth', () => {
   const userInfo = ref<UserInfo>({
@@ -15,12 +15,20 @@ export const useAuthStore = defineStore('auth', () => {
   });
 
   const error = ref<string>('');
+  const loader = ref<boolean>(false);
 
-  const signup = async (payload: Omit<SignUpRequest, 'returnSecureToken'>) => {
+  const auth = async (
+    payload: Omit<SignUpRequest, 'returnSecureToken'>,
+    type: 'signin' | 'signup'
+  ) => {
+    const url = type === 'signup' ? 'signUp' : 'signInWithPassword';
+
     error.value = '';
+    loader.value = true;
+
     try {
-      const { data } = await axios.post<AuthResponse>(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
+      const response = await axios.post<AuthResponse>(
+        `https://identitytoolkit.googleapis.com/v1/accounts:${url}?key=${VITE_FIREBASE_API_KEY}`,
         {
           ...payload,
           returnSecureToken: true,
@@ -32,34 +40,40 @@ export const useAuthStore = defineStore('auth', () => {
         }
       );
       userInfo.value = {
-        token: data.idToken,
-        email: data.email,
-        refreshToken: data.refreshToken,
-        expiresIn: data.expiresIn,
-        userId: data.localId,
+        token: response.data.idToken,
+        email: response.data.email,
+        refreshToken: response.data.refreshToken,
+        expiresIn: response.data.expiresIn,
+        userId: response.data.localId,
       };
-    } catch (err) {
-      const axiosError = err as AxiosError<FirebaseErrorResponse>;
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
+        const errorMessage = err.response?.data?.error?.message;
 
-      if (!axiosError.response) {
-        error.value = 'Network error occurred';
-        return;
+        switch (errorMessage) {
+          case 'EMAIL_EXISTS':
+            error.value = 'Пользователь с таким email уже существует';
+            break;
+          case 'OPERATION_NOT_ALLOWED':
+            error.value = 'Этот метод входа отключен в настройках Firebase';
+            break;
+          case 'INVALID_LOGIN_CREDENTIALS':
+            error.value = 'Неверный email или пароль';
+            break;
+          case 'USER_DISABLED':
+            error.value = 'Учетная запись пользователя отключена';
+            break;
+          default:
+            error.value = `Ошибка: ${errorMessage}`;
+            break;
+        }
+      } else {
+        error.value = 'Произошла ошибка при выполнении запроса';
       }
-
-      const firebaseError = axiosError.response.data.error;
-
-      switch (firebaseError.message) {
-        case 'EMAIL_EXISTS':
-          error.value = 'Пользователь с таким email уже существует';
-          break;
-        case 'OPERATION_NOT_ALLOWED':
-          error.value = 'Этот метод входа отключен в настройках Firebase';
-          break;
-        default:
-          error.value = 'Слишком много запросов. Попробуйте позже';
-          break;
-      }
+      throw error.value;
+    } finally {
+      loader.value = false;
     }
   };
-  return { signup, userInfo, error };
+  return { auth, userInfo, error, loader };
 });
