@@ -1,0 +1,30 @@
+$breakpoint-desktop: 1280px;
+$breakpoint-laptop: 1024px;
+$breakpoint-tablet: 768px;
+$breakpoint-mobile: 576px;
+
+#main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  overflow: hidden;
+  overflow-x: auto;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+
+  .main__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
+
+    height: 100%;
+    @media (min-width: $breakpoint-desktop) {
+      padding: 0 124px;
+    }
+  }
+}

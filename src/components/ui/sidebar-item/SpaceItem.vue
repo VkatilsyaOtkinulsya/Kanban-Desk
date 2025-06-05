@@ -2,10 +2,11 @@
 import Tooltip from '@/components/ui/tooltip/Tooltip.vue';
 
 interface Props {
-  href: string;
   style?: string;
-  label: string;
-  tooltipText: string;
+  space: {
+    id: string;
+    name: string;
+  };
   isOpened: boolean;
 }
 
@@ -15,14 +16,16 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <a :href="href" class="nav-item" aria-describedby="link-tooltip" tabindex="0">
+  <a :href="'/space/' + space.id" class="nav-item" aria-describedby="link-tooltip" tabindex="0">
     <div class="icon-wrapper">
-      <slot></slot>
+      <slot name="icon"></slot>
     </div>
-    <p v-show="isOpened">{{ label }}</p>
+    <p v-show="isOpened">
+      <slot name="label"></slot>
+    </p>
     <Tooltip
       id="link-tooltip"
-      :text="tooltipText"
+      :text="space.name"
       role="tooltip"
       position="right"
       :custom-position="{ left: isOpened ? '50%' : '210%' }"
@@ -63,6 +66,7 @@ withDefaults(defineProps<Props>(), {
 
 .leftside-bar--collapsed {
   .nav-item {
+    justify-content: center;
     &:hover .tooltip,
     &:focus .tooltip {
       opacity: 1;

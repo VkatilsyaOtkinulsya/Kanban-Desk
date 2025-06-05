@@ -54,6 +54,7 @@ const signup = async () => {
           type="password"
           placeholder="Password"
           class="auth-form__input"
+          suggested="current-password"
           required
         />
         <Loader v-if="authStore.loader" />

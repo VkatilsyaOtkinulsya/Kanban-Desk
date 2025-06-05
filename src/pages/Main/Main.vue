@@ -1,36 +1,52 @@
 <script setup lang="ts">
-import Footer from '@/components/Footer.vue'
-import Header from '@/components/Header.vue'
-import { useGreeting } from '@/composables/useGreetingDate.ts'
-import LeftsideBar from '@/modules/LeftsideBar/LeftsideBar.vue'
-import { ref, onMounted, onUnmounted } from 'vue'
+import Footer from '@/components/Footer.vue';
+import Header from '@/components/Header.vue';
+import LeftsideBar from '@/modules/LeftsideBar/LeftsideBar.vue';
 
-const userName = 'Иван Романов'
-const { formatdate, getGreeting } = useGreeting(userName)
+import { useGreeting, useCurrentTime } from '@/composables/useGreetingDate.ts';
+import { ref, onMounted } from 'vue';
+import { useAuthStore } from '@/stores/auth.ts';
+import axios, { AxiosError } from 'axios';
+import type { SpacesData } from '@/types/content';
 
-const currentDate = ref(new Date())
+const authStore = useAuthStore();
 
-let intervalId: number | null = null
+const spaces = ref<SpacesData>({});
+const showLoader = ref(false);
+const userName = 'Иван Романов';
 
-onMounted(() => {
-  intervalId = setInterval(() => {
-    currentDate.value = new Date()
-  }, 600000)
-})
+const currentTime = useCurrentTime();
+const { formatdate, getGreeting } = useGreeting(userName);
 
-onUnmounted(() => {
-  if (intervalId) clearInterval(intervalId)
-})
+const getAllSpaces = async () => {
+  showLoader.value = true;
+  try {
+    const response = await axios.get(
+      `https://jwt-tokens-firebase-add21-default-rtdb.europe-west1.firebasedatabase.app/spaces.json?auth=${authStore.userInfo.token}`
+    );
+    spaces.value = response.data;
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      console.error('Error:', err.response);
+    }
+  } finally {
+    showLoader.value = false;
+  }
+};
+
+onMounted(async () => {
+  await getAllSpaces();
+});
 </script>
 
 <template>
-  <LeftsideBar />
+  <LeftsideBar :spaces="spaces" :showLoader />
   <section id="main">
     <Header title="Kanban Desk" :style="'background-color: #1e1e1e'" />
     <div class="main__container">
       <div class="main__content-welcome">
-        <p class="date">{{ formatdate(currentDate) }}</p>
-        <h1>{{ getGreeting(currentDate) }}</h1>
+        <p class="date">{{ formatdate(currentTime) }}</p>
+        <h1>{{ getGreeting(currentTime) }}</h1>
       </div>
       <div class="main__content"></div>
     </div>
@@ -38,35 +54,8 @@ onUnmounted(() => {
   </section>
 </template>
 
+<!-- https://console.firebase.google.com/project/jwt-tokens-firebase-add21/database/jwt-tokens-firebase-add21-default-rtdb/data/~2F -->
+
 <style scoped lang="scss">
-$breakpoint-desktop: 1280px;
-$breakpoint-laptop: 1024px;
-$breakpoint-tablet: 768px;
-$breakpoint-mobile: 576px;
-
-#main {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-  overflow: hidden;
-  overflow-x: auto;
-  gap: 16px;
-  width: 100%;
-  box-sizing: border-box;
-
-  .main__container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    width: 100%;
-    box-sizing: border-box;
-
-    height: 100%;
-    @media (min-width: $breakpoint-desktop) {
-      padding: 0 124px;
-    }
-  }
-}
+@use './Main.module';
 </style>
