@@ -7,7 +7,7 @@ import { useGreeting, useCurrentTime } from '@/composables/useGreetingDate.ts';
 import { ref, onMounted } from 'vue';
 import type { SpacesData } from '@/types/content';
 import { SpacesService } from '@/services/spaces.service';
-import { AxiosError } from 'axios';
+import { handleApiError } from '@/utils/error-handler';
 
 const spaces = ref<SpacesData>({});
 const showLoader = ref(false);
@@ -21,10 +21,9 @@ onMounted(async () => {
   try {
     spaces.value = await SpacesService.getSpacesData();
   } catch (err) {
-    if (err instanceof AxiosError) {
-      console.log('Error:', err.response);
-    }
-    throw err;
+    handleApiError(err, {
+      context: 'Не удалось загрузить данные пространств',
+    });
   } finally {
     showLoader.value = false;
   }

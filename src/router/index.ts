@@ -1,30 +1,25 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
 
-import Main from '../pages/Main/Main.vue';
-import ClientProfile from '../pages/ClientProfile.vue';
-import SignUp from '../pages/Auth/SignUp.vue';
-import SignIn from '../pages/Auth/SignIn.vue';
-
 const routes: RouteRecordRaw[] = [
   {
     path: '/main',
     name: 'main',
-    component: Main,
+    component: () => import('@/pages/Main/Main.vue'),
   },
   {
     path: '/signup',
     name: 'signup',
-    component: SignUp,
+    component: () => import('@/pages/Auth/SignUp.vue'),
   },
   {
     path: '/signin',
     name: 'signin',
-    component: SignIn,
+    component: () => import('@/pages/Auth/SignIn.vue'),
   },
   {
     path: '/account',
-    component: ClientProfile,
+    component: () => import('@/pages/ClientProfile.vue'),
   },
   {
     path: '/:pathMatch(.*)*',

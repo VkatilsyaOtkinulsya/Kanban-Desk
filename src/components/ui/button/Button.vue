@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { cn } from '@/libs/utils';
+import { cn } from '@/utils/utils';
 
 const props = defineProps<{
   child?: string;

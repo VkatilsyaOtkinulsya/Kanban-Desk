@@ -43,6 +43,12 @@ export interface FirebaseErrorResponse {
   };
 }
 
+export interface AuthToken {
+  token: string;
+  refreshToken: string;
+  expiresIn: string;
+}
+
 export type FirebaseAuthErrorCode =
   | 'EMAIL_EXISTS'
   | 'OPERATION_NOT_ALLOWED'

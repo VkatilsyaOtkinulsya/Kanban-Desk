@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { defineStore } from 'pinia';
-import type { SignUpRequest, AuthResponse, UserInfo } from '@/types/auth.ts';
+import type { SignUpRequest, AuthResponse, UserInfo, AuthToken } from '@/types/auth.ts';
 import { ref } from 'vue';
 
 const VITE_FIREBASE_API_KEY = import.meta.env.VITE_FIREBASE_API_KEY;
@@ -39,6 +39,7 @@ export const useAuthStore = defineStore('auth', () => {
           },
         }
       );
+
       userInfo.value = {
         token: response.data.idToken,
         email: response.data.email,
@@ -46,6 +47,15 @@ export const useAuthStore = defineStore('auth', () => {
         expiresIn: response.data.expiresIn,
         userId: response.data.localId,
       };
+
+      localStorage.setItem(
+        'userTokens',
+        JSON.stringify({
+          token: userInfo.value.token,
+          refreshToken: userInfo.value.refreshToken,
+          expiresIn: response.data.expiresIn,
+        } as AuthToken)
+      );
     } catch (err: unknown) {
       if (err instanceof AxiosError) {
         const errorMessage = err.response?.data?.error?.message;

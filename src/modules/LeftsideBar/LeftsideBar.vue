@@ -2,7 +2,6 @@
 import NavItem from '@/components/ui/sidebar-item/NavItem.vue';
 import Tooltip from '@/components/ui/tooltip/Tooltip.vue';
 import FooterItem from '@/components/ui/sidebar-item/FooterItem.vue';
-import Modal from '@/components/ui/modal/Modal.vue';
 import Loader from '@/components/ui/loader/Loader.vue';
 import SpaceItem from '@/components/ui/sidebar-item/SpaceItem.vue';
 import {
@@ -13,9 +12,11 @@ import {
   MainIcon,
   ToggleIcon,
 } from '@/components/icons/index.ts';
-import { ref } from 'vue';
+import { defineAsyncComponent, ref } from 'vue';
 
 import type { SpacesData } from '@/types/content';
+
+const Modal = defineAsyncComponent(() => import('@/components/ui/modal/Modal.vue'));
 
 defineProps<{
   spaces: SpacesData;
@@ -38,7 +39,7 @@ const toggleSidebar = () => {
           <div class="client__link-icon">
             <img src="@/assets/images/client.jpg" alt="client" />
           </div>
-          <div v-show="isOpened" class="client__link-name">Иван Романов</div>
+          <div v-if="isOpened" class="client__link-name">Иван Романов</div>
         </div>
         <div class="navigation__client-toggle">
           <span
@@ -70,7 +71,7 @@ const toggleSidebar = () => {
         </div>
         <div class="content__wrapper">
           <div class="content__space-list">
-            <div v-show="isOpened" class="space-list__title">Все пространства</div>
+            <div v-if="isOpened" class="space-list__title">Все пространства</div>
             <div class="space-list__add-space">
               <button
                 id="add-space-button show-modal"
@@ -78,7 +79,7 @@ const toggleSidebar = () => {
                 class="add-space__button"
               >
                 <div class="add-icon"></div>
-                <p v-show="isOpened">Добавить пространство</p>
+                <p v-if="isOpened">Добавить пространство</p>
               </button>
               <Teleport to="body">
                 <Modal type="create" :show="showModal" @close="showModal = false"> </Modal>
