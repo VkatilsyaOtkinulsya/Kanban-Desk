@@ -4,49 +4,51 @@ This template should help get you started developing with Vue 3 and TypeScript i
 
 Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
 
-`src/
-├── pages/              # Страницы приложения
-│   ├── BoardPage.vue
-│   ├── LoginPage.vue
-│   └── ProfilePage.vue
+<!--
+src/
+├── pages/ # Страницы приложения
+│ ├── BoardPage.vue
+│ ├── LoginPage.vue
+│ └── ProfilePage.vue
 │
-├── modules/            # Бизнес-модули
-│   ├── board/         # Модуль доски
-│   │   ├── types.ts
-│   │   ├── api.ts
-│   │   ├── store.ts
-│   │   └── composables/
-│   │       ├── useBoard.ts
-│   │       └── useCard.ts
-│   │
-│   ├── auth/          # Модуль авторизации
-│   │   ├── types.ts
-│   │   ├── api.ts
-│   │   └── store.ts
-│   │
-│   └── profile/       # Модуль профиля
-│       ├── types.ts
-│       ├── api.ts
-│       └── store.ts
+├── modules/ # Бизнес-модули
+│ ├── board/ # Модуль доски
+│ │ ├── types.ts
+│ │ ├── api.ts
+│ │ ├── store.ts
+│ │ └── composables/
+│ │ ├── useBoard.ts
+│ │ └── useCard.ts
+│ │
+│ ├── auth/ # Модуль авторизации
+│ │ ├── types.ts
+│ │ ├── api.ts
+│ │ └── store.ts
+│ │
+│ └── profile/ # Модуль профиля
+│ ├── types.ts
+│ ├── api.ts
+│ └── store.ts
 │
-├── components/         # Композиционные компоненты
-    ├── board/
-    │   ├── BoardHeader.vue
-    │   ├── BoardContent.vue
-    │   └── BoardFooter.vue
-    │
-    ├── card/
-    │   ├── CardList.vue
-    │   ├── CardItem.vue
-    │   └── CardForm.vue
-    │
-    |── profile/
-    |    ├── ProfileInfo.vue
-    |   └── ProfileSettings.vue
-    |
-    |__ ui/                # Базовые UI компоненты
-        ├── Button.vue
-        ├── Input.vue
-        ├── Modal.vue
-        ├── Dropdown.vue
-        └── Card.vue`
+├── components/ # Композиционные компоненты
+├── board/
+│ ├── BoardHeader.vue
+│ ├── BoardContent.vue
+│ └── BoardFooter.vue
+│
+├── card/
+│ ├── CardList.vue
+│ ├── CardItem.vue
+│ └── CardForm.vue
+│
+|── profile/
+| ├── ProfileInfo.vue
+| └── ProfileSettings.vue
+|
+|\_\_ ui/ # Базовые UI компоненты
+├── Button.vue
+├── Input.vue
+├── Modal.vue
+├── Dropdown.vue
+└── Card.vue
+-->

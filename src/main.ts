@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { initializeApp } from 'firebase/app';
 
-import './style.css';
+import './style.scss';
 import App from './App.vue';
 import router from './router';
 import './api/api';

@@ -2,6 +2,8 @@ export interface SignUpRequest {
   email: string;
   password: string;
   returnSecureToken: boolean;
+  firstName: string;
+  lastName: string;
 }
 
 export interface AuthResponse {
@@ -29,6 +31,8 @@ export interface UserInfo {
   refreshToken: string;
   expiresIn: string;
   userId: string;
+  firstName: string;
+  lastName: string;
 }
 
 export interface FirebaseErrorResponse {
@@ -47,6 +51,12 @@ export interface AuthToken {
   token: string;
   refreshToken: string;
   expiresIn: string;
+}
+
+export interface UserData {
+  firstName: string;
+  lastName: string;
+  email: string;
 }
 
 export type FirebaseAuthErrorCode =

@@ -9,7 +9,10 @@ const show = (msg: string, notificationType: 'error' | 'success') => {
   message.value = msg;
   type.value = notificationType;
   visible.value = true;
-  setTimeout(hide, 5000);
+  const timeout = setTimeout(() => {
+    hide();
+    clearTimeout(timeout);
+  }, 5000);
 };
 
 const hide = () => {

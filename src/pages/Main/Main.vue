@@ -8,13 +8,17 @@ import { ref, onMounted } from 'vue';
 import type { SpacesData } from '@/types/content';
 import { SpacesService } from '@/services/spaces.service';
 import { handleApiError } from '@/utils/error-handler';
+import { useAuthStore } from '@/stores/auth';
 
 const spaces = ref<SpacesData>({});
 const showLoader = ref(false);
-const userName = 'Иван Романов';
+
+const store = useAuthStore();
 
 const currentTime = useCurrentTime();
-const { formatdate, getGreeting } = useGreeting(userName);
+const { formatdate, getGreeting } = useGreeting(
+  `${store.userInfo.firstName} ${store.userInfo.lastName}`
+);
 
 onMounted(async () => {
   showLoader.value = true;

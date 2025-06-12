@@ -11,6 +11,8 @@ const router = useRouter();
 const formData = reactive({
   email: '',
   password: '',
+  firstName: '',
+  lastName: '',
 });
 
 const authStore = useAuthStore();
@@ -21,6 +23,8 @@ const signup = async () => {
       {
         email: formData.email,
         password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
       },
       'signup'
     );
@@ -39,6 +43,22 @@ const signup = async () => {
       <h2 class="form-wrapper__title">Регистрация</h2>
       <form @submit.prevent="signup" class="auth-form">
         <p v-if="authStore.error" class="warn-message">{{ authStore.error }}</p>
+        <Input
+          v-model="formData.firstName"
+          name="firstName"
+          type="text"
+          placeholder="Имя"
+          class="auth-form__input"
+          required
+        />
+        <Input
+          v-model="formData.lastName"
+          name="lastName"
+          type="text"
+          placeholder="Фамилия"
+          class="auth-form__input"
+          required
+        />
         <Input
           v-model="formData.email"
           name="email"
