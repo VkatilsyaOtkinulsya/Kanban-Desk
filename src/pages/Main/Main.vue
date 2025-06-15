@@ -5,7 +5,7 @@ import LeftsideBar from '@/modules/LeftsideBar/LeftsideBar.vue';
 
 import { useGreeting, useCurrentTime } from '@/composables/useGreetingDate.ts';
 import { ref, onMounted } from 'vue';
-import type { SpacesData } from '@/types/content';
+import type { SpacesData } from '@/types/contentTypes';
 import { SpacesService } from '@/services/spaces.service';
 import { handleApiError } from '@/utils/error-handler';
 import { useAuthStore } from '@/stores/auth';

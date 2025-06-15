@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import type { SpacesData } from '@/types/content.ts';
+import type { SpacesData } from '@/types/contentTypes';
 import { ref } from 'vue';
 
 const error = ref<string>('');

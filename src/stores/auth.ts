@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { defineStore } from 'pinia';
-import type { SignUpRequest, AuthResponse, UserInfo, AuthToken, UserData } from '@/types/auth.ts';
+import type { SignUpRequest, AuthResponse, UserInfo, AuthToken, UserData } from '@/types/authTypes';
 import { ref } from 'vue';
 import { handleApiError } from '@/utils/error-handler';
 

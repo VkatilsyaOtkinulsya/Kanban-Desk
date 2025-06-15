@@ -1,5 +1,5 @@
 import { useAuthStore } from '@/stores/auth';
-import type { AuthToken } from '@/types/auth';
+import type { AuthToken } from '@/types/authTypes';
 
 export function useCheckAuth() {
   const authStore = useAuthStore();

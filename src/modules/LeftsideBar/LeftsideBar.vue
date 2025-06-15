@@ -14,7 +14,7 @@ import {
 } from '@/components/icons/index.ts';
 import { defineAsyncComponent, ref } from 'vue';
 
-import type { SpacesData } from '@/types/content';
+import type { SpacesData } from '@/types/contentTypes';
 
 const Modal = defineAsyncComponent(() => import('@/components/ui/modal/Modal.vue'));
 

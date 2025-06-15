@@ -21,6 +21,8 @@ const signin = async () => {
       {
         email: formData.email,
         password: formData.password,
+        firstName: '',
+        lastName: '',
       },
       'signin'
     );

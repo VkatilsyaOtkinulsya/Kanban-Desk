@@ -1,9 +1,25 @@
-export interface SignUpRequest {
+export interface AuthRequest {
   email: string;
   password: string;
-  returnSecureToken: boolean;
+  returnSecureToken?: boolean;
+}
+
+export interface AuthBasePayload {
+  email: string;
+  password: string;
+}
+
+export interface SignUpRequest extends AuthBasePayload {
   firstName: string;
   lastName: string;
+}
+
+export interface SignInRequest extends AuthBasePayload {}
+
+export type AuthPayload = SignInRequest | SignUpRequest;
+
+export function isSignUpRequest(payload: AuthPayload): payload is SignUpRequest {
+  return 'firstName' in payload && 'lastName' in payload;
 }
 
 export interface AuthResponse {
@@ -23,16 +39,6 @@ export interface AuthError {
     domain: string;
     reason: string;
   }>;
-}
-
-export interface UserInfo {
-  token: string;
-  email: string;
-  refreshToken: string;
-  expiresIn: string;
-  userId: string;
-  firstName: string;
-  lastName: string;
 }
 
 export interface FirebaseErrorResponse {
@@ -57,6 +63,16 @@ export interface UserData {
   firstName: string;
   lastName: string;
   email: string;
+}
+
+export interface UserInfo {
+  token: string;
+  email: string;
+  refreshToken: string;
+  expiresIn: string;
+  userId: string;
+  firstName: string;
+  lastName: string;
 }
 
 export type FirebaseAuthErrorCode =

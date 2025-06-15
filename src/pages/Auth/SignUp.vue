@@ -39,6 +39,12 @@ const signup = async () => {
 
 <template>
   <div class="signup-page">
+    <div class="signup__banner">
+      <div class="banner__content">
+        <div class="banner-logo"></div>
+        <h2 class="banner-title">Добро пожаловать!</h2>
+      </div>
+    </div>
     <div class="form-wrapper">
       <h2 class="form-wrapper__title">Регистрация</h2>
       <form @submit.prevent="signup" class="auth-form">
@@ -89,4 +95,24 @@ const signup = async () => {
 
 <style scoped lang="scss">
 @use './Auth.module';
+
+.signup__banner {
+  width: 460px;
+  height: 100%;
+  background-color: #111012;
+  box-sizing: border-box;
+
+  .banner__content {
+    padding: 150px 10px 0 80px;
+    display: flex;
+    flex-direction: column;
+
+    .banner-logo {
+    }
+    .banner-title {
+      font-family: 'Roboto', sans-serif;
+      color: #fff;
+    }
+  }
+}
 </style>
