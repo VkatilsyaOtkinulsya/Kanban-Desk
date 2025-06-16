@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/auth.store';
 import { useRouter } from 'vue-router';
 import Input from '@/components/ui/input/Input.vue';
 import Button from '@/components/ui/button/Button.vue';
@@ -7,25 +7,19 @@ import { reactive } from 'vue';
 import Loader from '@/components/ui/loader/Loader.vue';
 
 const router = useRouter();
+const authStore = useAuthStore();
 
 const formData = reactive({
   email: '',
   password: '',
 });
 
-const authStore = useAuthStore();
-
 const signin = async () => {
   try {
-    await authStore.auth(
-      {
-        email: formData.email,
-        password: formData.password,
-        firstName: '',
-        lastName: '',
-      },
-      'signin'
-    );
+    await authStore.login({
+      email: formData.email,
+      password: formData.password,
+    });
     router.push('/main');
   } catch (err) {
     if (err instanceof Error) {
@@ -59,7 +53,7 @@ const signin = async () => {
           suggested="current-password"
           required
         />
-        <Loader v-if="authStore.loader" />
+        <Loader v-if="authStore.isLoading" />
         <Button v-else type="submit" class="auth-form__button">Войти</Button>
         <span class="ans-text"
           >Вы еще не зарегистрированы? <router-link to="/signup">Регистрация</router-link></span

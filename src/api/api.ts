@@ -1,10 +1,13 @@
 import axios from 'axios';
-import { useAuthStore } from '@/stores/auth';
 
 axios.interceptors.request.use((config) => {
-  const authStore = useAuthStore();
-  let params = new URLSearchParams();
-  params.append('auth', authStore.userInfo.token);
-  config.params = params;
+  const userTokens = localStorage.getItem('userTokens');
+  const token = userTokens ? JSON.parse(userTokens).token : null;
+  if (token) {
+    config.params = {
+      ...config.params,
+      auth: token,
+    };
+  }
   return config;
 });

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/auth.store';
 import Input from '@/components/ui/input/Input.vue';
 import Button from '@/components/ui/button/Button.vue';
 import { reactive } from 'vue';
@@ -7,6 +7,7 @@ import Loader from '@/components/ui/loader/Loader.vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+const authStore = useAuthStore();
 
 const formData = reactive({
   email: '',
@@ -15,19 +16,14 @@ const formData = reactive({
   lastName: '',
 });
 
-const authStore = useAuthStore();
-
-const signup = async () => {
+const handleSubmit = async () => {
   try {
-    await authStore.auth(
-      {
-        email: formData.email,
-        password: formData.password,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-      },
-      'signup'
-    );
+    await authStore.register({
+      email: formData.email,
+      password: formData.password,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+    });
     router.push('/signin');
   } catch (err) {
     if (err instanceof Error) {
@@ -47,7 +43,7 @@ const signup = async () => {
     </div>
     <div class="form-wrapper">
       <h2 class="form-wrapper__title">Регистрация</h2>
-      <form @submit.prevent="signup" class="auth-form">
+      <form @submit.prevent="handleSubmit" class="auth-form">
         <p v-if="authStore.error" class="warn-message">{{ authStore.error }}</p>
         <Input
           v-model="formData.firstName"
@@ -83,7 +79,7 @@ const signup = async () => {
           suggested="current-password"
           required
         />
-        <Loader v-if="authStore.loader" />
+        <Loader v-if="authStore.isLoading" />
         <Button v-else type="submit" class="auth-form__button">Зарегистрироваться</Button>
         <span class="ans-text"
           >Вы уже зарегистрированы? <router-link to="/signin">Вход</router-link></span

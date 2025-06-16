@@ -8,7 +8,7 @@ import { ref, onMounted } from 'vue';
 import type { SpacesData } from '@/types/contentTypes';
 import { SpacesService } from '@/services/spaces.service';
 import { handleApiError } from '@/utils/error-handler';
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/auth.store';
 
 const spaces = ref<SpacesData>({});
 const showLoader = ref(false);

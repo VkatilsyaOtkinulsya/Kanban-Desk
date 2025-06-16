@@ -43,7 +43,6 @@ export const AuthService = {
     return this._authRequest(
       {
         ...payload,
-        returnSecureToken: true,
       },
       'signUp'
     );
@@ -53,7 +52,6 @@ export const AuthService = {
     return this._authRequest(
       {
         ...payload,
-        returnSecureToken: true,
       },
       'signInWithPassword'
     );
