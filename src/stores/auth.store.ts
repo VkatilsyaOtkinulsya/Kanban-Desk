@@ -47,6 +47,7 @@ export const useAuthStore = defineStore('auth', () => {
   const login = async (payload: SignInRequest) => {
     try {
       const { localId, ...authData } = await signIn(payload);
+      const userData = await AuthService.getUserData(localId, authData.idToken);
 
       localStorage.setItem(
         'userTokens',
@@ -54,28 +55,52 @@ export const useAuthStore = defineStore('auth', () => {
           token: authData.idToken,
           refreshToken: authData.refreshToken,
           expiresIn: authData.expiresIn,
+          userId: localId,
         })
       );
 
-      const userData = await AuthService.getUserData(localId, authData.idToken);
+      localStorage.setItem(
+        'userData',
+        JSON.stringify({
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          email: userData.email,
+        })
+      );
 
       userInfo.value = {
         ...authData,
         userId: localId,
-        firstName: userData.firstName,
-        lastName: userData.lastName,
+        ...userData,
       };
     } catch (err) {
       throw err;
     }
   };
 
+  const initAuth = () => {
+    const tokens = localStorage.getItem('userTokens');
+    const userData = localStorage.getItem('userData');
+
+    if (tokens && userData) {
+      const parsedTokens = JSON.parse(tokens);
+      const parsedUserData = JSON.parse(userData);
+
+      userInfo.value = {
+        ...parsedTokens,
+        ...parsedUserData,
+      };
+    }
+  };
+
   return {
     userInfo,
+
     error,
     isLoading,
     register,
     login,
+    initAuth,
     clearError: () => (error.value = ''),
   };
 });

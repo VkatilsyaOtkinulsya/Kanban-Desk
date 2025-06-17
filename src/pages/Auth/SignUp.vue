@@ -79,7 +79,7 @@ const handleSubmit = async () => {
           suggested="current-password"
           required
         />
-        <Loader v-if="authStore.isLoading" />
+        <Loader v-if="authStore.isLoading" color="#000" />
         <Button v-else type="submit" class="auth-form__button">Зарегистрироваться</Button>
         <span class="ans-text"
           >Вы уже зарегистрированы? <router-link to="/signin">Вход</router-link></span

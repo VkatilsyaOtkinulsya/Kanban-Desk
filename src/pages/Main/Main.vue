@@ -13,17 +13,17 @@ import { useAuthStore } from '@/stores/auth.store';
 const spaces = ref<SpacesData>({});
 const showLoader = ref(false);
 
-const store = useAuthStore();
+const authStore = useAuthStore();
+const userName = `${authStore.userInfo.firstName} ${authStore.userInfo.lastName}`;
 
 const currentTime = useCurrentTime();
-const { formatdate, getGreeting } = useGreeting(
-  `${store.userInfo.firstName} ${store.userInfo.lastName}`
-);
+const { formatdate, getGreeting } = useGreeting(userName);
 
 onMounted(async () => {
   showLoader.value = true;
   try {
     spaces.value = await SpacesService.getSpacesData();
+    console.log(spaces.value);
   } catch (err) {
     handleApiError(err, {
       context: 'Не удалось загрузить данные пространств',
@@ -35,7 +35,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <LeftsideBar :spaces="spaces" :showLoader />
+  <LeftsideBar :spaces :showLoader :userName />
   <section id="main">
     <Header title="Kanban Desk" :style="'background-color: #1e1e1e'" />
     <div class="main__container">

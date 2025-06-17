@@ -53,7 +53,7 @@ const signin = async () => {
           suggested="current-password"
           required
         />
-        <Loader v-if="authStore.isLoading" />
+        <Loader v-if="authStore.isLoading" color="#000" />
         <Button v-else type="submit" class="auth-form__button">Войти</Button>
         <span class="ans-text"
           >Вы еще не зарегистрированы? <router-link to="/signup">Регистрация</router-link></span

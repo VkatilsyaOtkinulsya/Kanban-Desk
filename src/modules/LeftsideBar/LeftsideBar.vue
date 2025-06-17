@@ -21,6 +21,7 @@ const Modal = defineAsyncComponent(() => import('@/components/ui/modal/Modal.vue
 defineProps<{
   spaces: SpacesData;
   showLoader: Boolean;
+  userName: string;
 }>();
 
 const isOpened = ref(false);
@@ -39,7 +40,7 @@ const toggleSidebar = () => {
           <div class="client__link-icon">
             <img src="@/assets/images/client.jpg" alt="client" />
           </div>
-          <div v-if="isOpened" class="client__link-name">Иван Романов</div>
+          <div v-if="isOpened" class="client__link-name">{{ userName }}</div>
         </div>
         <div class="navigation__client-toggle">
           <span
@@ -85,7 +86,7 @@ const toggleSidebar = () => {
                 <Modal type="create" :show="showModal" @close="showModal = false"> </Modal>
               </Teleport>
             </div>
-            <Loader v-if="showLoader" />
+            <Loader v-if="showLoader" color="#fff" />
             <div v-else>
               <SpaceItem v-for="(space, key) in spaces" :key="key" :space :isOpened>
                 <template #icon>
@@ -109,11 +110,13 @@ const toggleSidebar = () => {
           <HelpIcon />
         </template>
       </FooterItem>
-      <FooterItem href="#" label="Выйти" tooltipText="Выйти" :is-opened :isButton="true">
-        <template #icon>
-          <SignoutIcon />
-        </template>
-      </FooterItem>
+      <router-link to="/signin">
+        <FooterItem href="#" label="Выйти" tooltipText="Выйти" :is-opened :isButton="true">
+          <template #icon>
+            <SignoutIcon />
+          </template>
+        </FooterItem>
+      </router-link>
     </div>
   </aside>
 </template>
