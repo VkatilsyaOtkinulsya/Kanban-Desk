@@ -16,7 +16,12 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <a :href="'/space/' + space.id" class="nav-item" aria-describedby="link-tooltip" tabindex="0">
+  <a
+    :href="'/space/' + space.id + '/projects'"
+    class="nav-item"
+    aria-describedby="link-tooltip"
+    tabindex="0"
+  >
     <div class="icon-wrapper">
       <slot name="icon"></slot>
     </div>

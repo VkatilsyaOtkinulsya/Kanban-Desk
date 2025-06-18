@@ -1,9 +1,17 @@
 export interface Space {
   id: string;
   name: string;
-  [boardName: string]: string | string[];
+  projects: string | Project[];
 }
 
 export interface SpacesData {
-  [key: string]: Space;
+  spaces: Space[];
+}
+
+export interface Project {
+  [projectName: string]: string | string[];
+}
+
+export interface ProjectsData {
+  projects: Project[];
 }

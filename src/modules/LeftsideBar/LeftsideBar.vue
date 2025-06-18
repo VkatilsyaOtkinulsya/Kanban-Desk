@@ -14,12 +14,12 @@ import {
 } from '@/components/icons/index.ts';
 import { defineAsyncComponent, ref } from 'vue';
 
-import type { SpacesData } from '@/types/contentTypes';
+import type { Space } from '@/types/contentTypes';
 
 const Modal = defineAsyncComponent(() => import('@/components/ui/modal/Modal.vue'));
 
 defineProps<{
-  spaces: SpacesData;
+  spaces: Space[];
   showLoader: Boolean;
   userName: string;
 }>();
@@ -88,12 +88,18 @@ const toggleSidebar = () => {
             </div>
             <Loader v-if="showLoader" color="#fff" />
             <div v-else>
-              <SpaceItem v-for="(space, key) in spaces" :key="key" :space :isOpened>
-                <template #icon>
-                  <SpaceIcon />
-                </template>
-                <template #label> {{ space.name }} </template>
-              </SpaceItem>
+              <router-link
+                v-for="space in spaces"
+                :key="space.id"
+                :to="{ name: 'space-projects', params: { spaceId: space.id } }"
+              >
+                <SpaceItem :space :isOpened>
+                  <template #icon>
+                    <SpaceIcon />
+                  </template>
+                  <template #label> {{ space.name }} </template>
+                </SpaceItem>
+              </router-link>
             </div>
           </div>
         </div>

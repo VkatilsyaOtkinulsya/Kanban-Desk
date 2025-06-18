@@ -5,12 +5,12 @@ import LeftsideBar from '@/modules/LeftsideBar/LeftsideBar.vue';
 
 import { useGreeting, useCurrentTime } from '@/composables/useGreetingDate.ts';
 import { ref, onMounted } from 'vue';
-import type { SpacesData } from '@/types/contentTypes';
+import type { Space } from '@/types/contentTypes';
 import { SpacesService } from '@/services/spaces.service';
 import { handleApiError } from '@/utils/error-handler';
 import { useAuthStore } from '@/stores/auth.store';
 
-const spaces = ref<SpacesData>({});
+const spacesData = ref<Space[]>([]);
 const showLoader = ref(false);
 
 const authStore = useAuthStore();
@@ -22,8 +22,10 @@ const { formatdate, getGreeting } = useGreeting(userName);
 onMounted(async () => {
   showLoader.value = true;
   try {
-    spaces.value = await SpacesService.getSpacesData();
-    console.log(spaces.value);
+    const response = await SpacesService.getSpacesData();
+    console.log(response);
+    spacesData.value = response;
+    console.log(spacesData.value);
   } catch (err) {
     handleApiError(err, {
       context: 'Не удалось загрузить данные пространств',
@@ -35,7 +37,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <LeftsideBar :spaces :showLoader :userName />
+  <LeftsideBar :spaces="spacesData" :showLoader :userName> </LeftsideBar>
   <section id="main">
     <Header title="Kanban Desk" :style="'background-color: #1e1e1e'" />
     <div class="main__container">
