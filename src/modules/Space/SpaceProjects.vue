@@ -1,45 +1,65 @@
 <script setup lang="ts">
 import Loader from '@/components/ui/loader/Loader.vue';
 import { SpacesService } from '@/services/spaces.service';
-import type { Project, ProjectsData } from '@/types/contentTypes';
 import { handleApiError } from '@/utils/error-handler';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
-const route = useRoute();
-const spaceId = route.params.spaceId as string;
-const projects = ref<Project[]>([]);
-const isLoading = ref(false);
+defineProps<{
+  spaceId: string;
+}>();
 
-onMounted(async () => {
+const route = useRoute();
+const projects = ref<string[]>([]);
+const isLoading = ref(false);
+const spaceId = ref(route.params.spaceId as string);
+
+const loadSpaceData = async () => {
   isLoading.value = true;
   try {
-    const response = await SpacesService.getProjects(spaceId);
-    projects.value = response.projects;
+    const response = SpacesService.getProjects(route.params.spaceId as string);
+    projects.value = Object.keys(response);
+    return projects.value;
   } catch (err) {
     handleApiError(err, {
       context: 'Не удалось загрузить данные пространств',
     });
   } finally {
+    isLoading.value = false;
   }
+};
+
+onMounted(() => {
+  loadSpaceData();
 });
+
+watch(
+  () => route.params.spaceId,
+  (newSpaceId) => {
+    spaceId.value = newSpaceId as string;
+    loadSpaceData();
+  }
+);
 </script>
 
 <template>
   <div>
     <h2>Активные проекты</h2>
     <Loader v-if="isLoading" color="#fff" />
-    <div v-else class="list-wrapper">
-      <router-link
+    <div v-else-if="projects" class="list-wrapper">
+      <div
         v-for="(project, index) in projects"
         :key="index"
         :to="{
           name: 'ProjectTasks',
-          params: { spaceId: route.params.spaceId, projectId: project.id },
+          params: { spaceId: index, projectId: Object.values(project) },
         }"
       >
-        {{ project.name }}
-      </router-link>
+        {{ project }}
+      </div>
+    </div>
+    <div v-else>
+      <p>Пространство пустое</p>
     </div>
   </div>
 </template>

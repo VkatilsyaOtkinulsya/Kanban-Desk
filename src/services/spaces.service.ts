@@ -7,6 +7,13 @@ export const SpacesService = {
     try {
       const response = await axios.get(`
         https://jwt-tokens-firebase-add21-default-rtdb.europe-west1.firebasedatabase.app/spaces.json`);
+      const data = response.data;
+      localStorage.setItem(
+        'spaces',
+        JSON.stringify({
+          data,
+        })
+      );
       return response.data;
     } catch (err) {
       handleApiError(err, {
@@ -16,12 +23,15 @@ export const SpacesService = {
     }
   },
 
-  async getProjects(path: string): Promise<ProjectsData> {
+  getProjects(path: string): ProjectsData {
     try {
-      const response = await axios.get(
-        `https://jwt-tokens-firebase-add21-default-rtdb.europe-west1.firebasedatabase.app/spaces/${path}/projects.json`
-      );
-      return response.data;
+      const response = localStorage.getItem('spaces');
+      if (!response) throw new Error('Не удалось загрузить данные пространств');
+
+      const data = JSON.parse(response).data;
+      const projects = data[+path].projects;
+
+      return projects;
     } catch (err) {
       handleApiError(err, {
         context: 'Не удалось загрузить данные пространств',

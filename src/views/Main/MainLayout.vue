@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import Footer from '@/components/Footer.vue';
-import Header from '@/components/Header.vue';
 import LeftsideBar from '@/modules/LeftsideBar/LeftsideBar.vue';
-
-import { useGreeting, useCurrentTime } from '@/composables/useGreetingDate.ts';
 import { ref, onMounted } from 'vue';
 import type { Space } from '@/types/contentTypes';
 import { SpacesService } from '@/services/spaces.service';
@@ -16,16 +12,11 @@ const showLoader = ref(false);
 const authStore = useAuthStore();
 const userName = `${authStore.userInfo.firstName} ${authStore.userInfo.lastName}`;
 
-const currentTime = useCurrentTime();
-const { formatdate, getGreeting } = useGreeting(userName);
-
 onMounted(async () => {
   showLoader.value = true;
   try {
     const response = await SpacesService.getSpacesData();
-    console.log(response);
     spacesData.value = response;
-    console.log(spacesData.value);
   } catch (err) {
     handleApiError(err, {
       context: 'Не удалось загрузить данные пространств',
@@ -38,17 +29,9 @@ onMounted(async () => {
 
 <template>
   <LeftsideBar :spaces="spacesData" :showLoader :userName> </LeftsideBar>
-  <section id="main">
-    <Header title="Kanban Desk" :style="'background-color: #1e1e1e'" />
-    <div class="main__container">
-      <div class="main__content-welcome">
-        <p class="date">{{ formatdate(currentTime) }}</p>
-        <h1>{{ getGreeting(currentTime) }}</h1>
-      </div>
-      <div class="main__content"></div>
-    </div>
-    <Footer title="Footer"><template #content>Footer</template></Footer>
-  </section>
+  <div class="content-wrapper">
+    <router-view />
+  </div>
 </template>
 
 <style scoped lang="scss">

@@ -20,25 +20,29 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: '/main',
-    name: 'main',
-    component: () => import('@/views/Main/Main.vue'),
-    meta: {
-      requiresAuth: true,
-    },
+    path: '/',
+    component: () => import('@/views/Main/MainLayout.vue'),
+    meta: { requiresAuth: true },
     children: [
       {
-        path: 'spaces/:spaceId',
+        path: 'main',
+        name: 'main',
+        component: () => import('@/views/Main/Home.vue'),
+      },
+      {
+        path: '/spaces/:spaceId',
         component: () => import('@/views/Spaces/SpaceLayout.vue'),
         props: true,
+        meta: { requiresAuth: true },
         children: [
           {
             path: 'projects',
             name: 'space-projects',
             component: () => import('@/modules/Space/SpaceProjects.vue'),
+            props: true,
           },
           {
-            path: ':projectId/tasks',
+            path: ':projectName/tasks',
             name: 'project-tasks',
             component: () => import('@/components/ui/loader/Loader.vue'),
             props: true,
@@ -47,6 +51,7 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
+
   {
     path: '/account',
     component: () => import('@/views/ClientProfile.vue'),

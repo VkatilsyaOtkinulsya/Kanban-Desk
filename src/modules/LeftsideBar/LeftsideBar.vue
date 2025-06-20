@@ -24,7 +24,7 @@ defineProps<{
   userName: string;
 }>();
 
-const isOpened = ref(false);
+const isOpened = ref(true);
 const showModal = ref(false);
 
 const toggleSidebar = () => {
@@ -63,7 +63,7 @@ const toggleSidebar = () => {
       </a>
       <div class="navigation__sections">
         <div class="navigation__sections-list">
-          <NavItem href="/" label="Главная" tooltipText="Главная" :isOpened>
+          <NavItem href="/main" label="Главная" tooltipText="Главная" :isOpened>
             <MainIcon />
           </NavItem>
           <NavItem href="/activity" label="Активность" tooltipText="Активность" :isOpened>
@@ -89,9 +89,9 @@ const toggleSidebar = () => {
             <Loader v-if="showLoader" color="#fff" />
             <div v-else>
               <router-link
-                v-for="space in spaces"
+                v-for="(space, index) in spaces"
                 :key="space.id"
-                :to="{ name: 'space-projects', params: { spaceId: space.id } }"
+                :to="{ name: 'space-projects', params: { spaceId: index } }"
               >
                 <SpaceItem :space :isOpened>
                   <template #icon>
