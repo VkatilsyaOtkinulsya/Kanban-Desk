@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { SpaceIcon } from '@/components/icons/index';
 
 defineProps<{
   spaceId: string;
@@ -23,10 +24,51 @@ watch(
 
 <template>
   <div class="space-wrapper">
-    <router-link :to="{ name: 'space-projects', params: { spaceId } }">
-      Назад к проектам
-    </router-link>
-    <h2 class="space__title">Пространство: {{ spaceName }}</h2>
+    <div class="header__nav-list">
+      <div class="nav-item">
+        <SpaceIcon :color="'#000'" :size="18" />
+        <router-link :to="{ name: 'space-projects', params: { spaceId } }">
+          {{ spaceName }}
+        </router-link>
+      </div>
+    </div>
     <router-view />
   </div>
 </template>
+
+<style scoped lang="scss">
+.space-wrapper {
+  width: 100%;
+  height: 100vh;
+  background-color: rgb(241, 255, 239);
+  box-sizing: border-box;
+}
+.header__nav-list {
+  display: flex;
+  width: 100%;
+  height: 60px;
+  align-items: center;
+  padding: 30px;
+  gap: 14px;
+  box-sizing: border-box;
+
+  margin-bottom: 45px;
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    svg {
+      color: #000;
+    }
+
+    a {
+      color: #000;
+      font-size: 1rem;
+      font-weight: 500;
+      font-family: 'Roboto', sans-serif;
+      line-height: 21px;
+    }
+  }
+}
+</style>

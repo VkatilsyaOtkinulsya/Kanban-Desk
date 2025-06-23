@@ -4,7 +4,7 @@
     viewBox="0 0 612 612"
     width="20"
     height="20"
-    fill="#cccccc"
+    fill="currentColor"
   >
     <g>
       <g>

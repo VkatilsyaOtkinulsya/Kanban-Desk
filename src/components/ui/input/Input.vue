@@ -29,5 +29,3 @@ const value = computed({
     :required="required"
   />
 </template>
-
-<style scoped lang="'scss'"></style>

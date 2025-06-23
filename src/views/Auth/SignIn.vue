@@ -14,7 +14,7 @@ const formData = reactive({
   password: '',
 });
 
-const signin = async () => {
+const handleSubmit = async () => {
   try {
     await authStore.login({
       email: formData.email,
@@ -30,11 +30,20 @@ const signin = async () => {
 </script>
 
 <template>
-  <div class="signup-page">
+  <div class="auth-page">
+    <div class="auth__banner">
+      <div class="banner__content">
+        <div class="banner-logo">
+          <img src="@/assets/images/logo.jpg" alt="Logo" class="logo" />
+          <div class="logo-text">Neatify</div>
+        </div>
+        <h2 class="banner-title">Войти в Neatify</h2>
+      </div>
+    </div>
     <div class="form-wrapper">
       <h2 class="form-wrapper__title">Вход</h2>
-      <form @submit.prevent="signin" class="auth-form">
-        <p v-if="authStore.error" class="warn-message">{{ authStore.error }}</p>
+      <p v-if="authStore.error" class="warn-message">{{ authStore.error }}</p>
+      <form @submit.prevent="handleSubmit" class="auth-form">
         <Input
           v-model="formData.email"
           name="email"
@@ -55,10 +64,10 @@ const signin = async () => {
         />
         <Loader v-if="authStore.isLoading" color="#000" />
         <Button v-else type="submit" class="auth-form__button">Войти</Button>
-        <span class="ans-text"
-          >Вы еще не зарегистрированы? <router-link to="/signup">Регистрация</router-link></span
-        >
       </form>
+      <span class="ans-text"
+        >Вы еще не зарегистрированы? <router-link to="/signup">Регистрация</router-link></span
+      >
     </div>
   </div>
 </template>

@@ -6,7 +6,7 @@ import type {
   SignInRequest,
 } from '@/types/authTypes';
 import { handleApiError } from '@/utils/error-handler';
-import axios from 'axios';
+import axiosApiInstance from '@/api/api';
 
 const FIREBASE_API_KEY = import.meta.env.VITE_FIREBASE_API_KEY;
 const DATABASE_URL = import.meta.env.VITE_DATABASE_URL;
@@ -14,7 +14,7 @@ const DATABASE_URL = import.meta.env.VITE_DATABASE_URL;
 export const AuthService = {
   async saveUserData(userId: string, userData: UserData, token: string) {
     try {
-      await axios.put(`${DATABASE_URL}/users/${userId}.json`, userData, {
+      await axiosApiInstance.put(`${DATABASE_URL}/users/${userId}.json`, userData, {
         params: {
           auth: token,
         },
@@ -27,7 +27,7 @@ export const AuthService = {
 
   async getUserData(userId: string, token: string) {
     try {
-      const response = await axios.get(`${DATABASE_URL}/users/${userId}.json`, {
+      const response = await axiosApiInstance.get(`${DATABASE_URL}/users/${userId}.json`, {
         params: {
           auth: token,
         },
@@ -62,7 +62,7 @@ export const AuthService = {
     endpoint: 'signUp' | 'signInWithPassword'
   ): Promise<AuthResponse> {
     try {
-      const response = await axios.post<AuthResponse>(
+      const response = await axiosApiInstance.post<AuthResponse>(
         `https://identitytoolkit.googleapis.com/v1/accounts:${endpoint}?key=${FIREBASE_API_KEY}`,
         {
           ...payload,

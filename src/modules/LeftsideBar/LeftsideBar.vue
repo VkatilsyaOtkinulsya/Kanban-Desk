@@ -13,10 +13,9 @@ import {
   ToggleIcon,
 } from '@/components/icons/index.ts';
 import { defineAsyncComponent, ref } from 'vue';
-
 import type { Space } from '@/types/contentTypes';
-
-const Modal = defineAsyncComponent(() => import('@/components/ui/modal/Modal.vue'));
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth.store';
 
 defineProps<{
   spaces: Space[];
@@ -24,11 +23,24 @@ defineProps<{
   userName: string;
 }>();
 
+const Modal = defineAsyncComponent(() => import('@/components/ui/modal/Modal.vue'));
+
+const router = useRouter();
+const authStore = useAuthStore();
+
 const isOpened = ref(true);
 const showModal = ref(false);
 
 const toggleSidebar = () => {
   isOpened.value = !isOpened.value;
+};
+
+const logout = () => {
+  authStore.logout();
+  localStorage.removeItem('userTokens');
+  localStorage.removeItem('userData');
+  localStorage.removeItem('spaces');
+  router.push('/signin');
 };
 </script>
 
@@ -87,13 +99,13 @@ const toggleSidebar = () => {
               </Teleport>
             </div>
             <Loader v-if="showLoader" color="#fff" />
-            <div v-else>
+            <div v-else class="space-list">
               <router-link
                 v-for="(space, index) in spaces"
                 :key="space.id"
                 :to="{ name: 'space-projects', params: { spaceId: index } }"
               >
-                <SpaceItem :space :isOpened>
+                <SpaceItem :space :index :isOpened>
                   <template #icon>
                     <SpaceIcon />
                   </template>
@@ -116,7 +128,7 @@ const toggleSidebar = () => {
           <HelpIcon />
         </template>
       </FooterItem>
-      <router-link to="/signin">
+      <router-link to="/signin" @click.prevent="logout">
         <FooterItem href="#" label="Выйти" tooltipText="Выйти" :is-opened :isButton="true">
           <template #icon>
             <SignoutIcon />

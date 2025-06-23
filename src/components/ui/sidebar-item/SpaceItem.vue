@@ -8,6 +8,7 @@ interface Props {
     name: string;
   };
   isOpened: boolean;
+  index?: number;
 }
 
 withDefaults(defineProps<Props>(), {
@@ -17,7 +18,7 @@ withDefaults(defineProps<Props>(), {
 
 <template>
   <a
-    :href="'/space/' + space.id + '/projects'"
+    :href="'/space/' + index + '/projects'"
     class="nav-item"
     aria-describedby="link-tooltip"
     tabindex="0"
@@ -72,8 +73,7 @@ withDefaults(defineProps<Props>(), {
 .leftside-bar--collapsed {
   .nav-item {
     justify-content: center;
-    &:hover .tooltip,
-    &:focus .tooltip {
+    &:hover .tooltip {
       opacity: 1;
     }
   }

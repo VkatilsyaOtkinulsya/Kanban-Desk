@@ -55,16 +55,13 @@ withDefaults(defineProps<Props>(), {
     align-items: center;
     justify-content: center;
 
-    img {
-      color: #fff;
-    }
+    color: rgb(153, 153, 153);
   }
 }
 
 .leftside-bar--collapsed {
   .nav-item {
-    &:hover .tooltip,
-    &:focus .tooltip {
+    &:hover .tooltip {
       opacity: 1;
     }
   }

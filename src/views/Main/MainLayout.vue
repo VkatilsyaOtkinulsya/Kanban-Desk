@@ -35,5 +35,7 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
-@use './Main.module';
+.content-wrapper {
+  width: 100%;
+}
 </style>

@@ -1,5 +1,12 @@
 <template>
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    :width="size"
+    :height="size"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    :style="{ color: color }"
+  >
     <rect
       x="3.75"
       y="3.75"
@@ -23,3 +30,19 @@
     ></path>
   </svg>
 </template>
+
+<script>
+export default {
+  name: 'SpaceIcon',
+  props: {
+    size: {
+      type: Number,
+      default: 24,
+    },
+    color: {
+      type: String,
+      default: 'rgb(153, 153, 153)',
+    },
+  },
+};
+</script>

@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import Tooltip from '@/components/ui/tooltip/Tooltip.vue'
+import Tooltip from '@/components/ui/tooltip/Tooltip.vue';
 
 interface Props {
-  href: string
-  style?: string
-  label: string
-  tooltipText: string
-  isOpened: boolean
-  isButton?: boolean
+  href: string;
+  style?: string;
+  label: string;
+  tooltipText: string;
+  isOpened: boolean;
+  isButton?: boolean;
 }
 
 withDefaults(defineProps<Props>(), {
   isOpened: false,
   isButton: false,
-})
+});
 </script>
 
 <template>
@@ -94,8 +94,7 @@ withDefaults(defineProps<Props>(), {
     justify-content: center;
     padding: 0;
 
-    &:hover .tooltip,
-    &:focus .tooltip {
+    &:hover .tooltip {
       opacity: 1;
     }
   }

@@ -14,13 +14,14 @@ const { formatdate, getGreeting } = useGreeting(userName);
 
 <template>
   <section id="main">
-    <Header title="Kanban Desk" :style="'background-color: #1e1e1e'" />
+    <Header title="Главная" :style="'box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);'" />
+
     <div class="main__container">
       <div class="main__content-welcome">
         <p class="date">{{ formatdate(currentTime) }}</p>
         <h1>{{ getGreeting(currentTime) }}</h1>
       </div>
-      <div class="main__content"></div>
+      <div class="main__content">Content</div>
     </div>
     <Footer title="Footer"><template #content>Footer</template></Footer>
   </section>

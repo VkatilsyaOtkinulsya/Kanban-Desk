@@ -34,17 +34,23 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div class="signup-page">
-    <div class="signup__banner">
+  <div class="auth-page">
+    <div class="auth__banner">
       <div class="banner__content">
-        <div class="banner-logo"></div>
-        <h2 class="banner-title">Добро пожаловать!</h2>
+        <div class="banner-logo">
+          <img src="@/assets/images/logo.jpg" alt="" class="logo" />
+          <div class="logo-text">Neatify</div>
+        </div>
+        <h2 class="banner-title">
+          Добро<br />
+          пожаловать!
+        </h2>
       </div>
     </div>
     <div class="form-wrapper">
       <h2 class="form-wrapper__title">Регистрация</h2>
+      <p v-if="authStore.error" class="warn-message">{{ authStore.error }}</p>
       <form @submit.prevent="handleSubmit" class="auth-form">
-        <p v-if="authStore.error" class="warn-message">{{ authStore.error }}</p>
         <Input
           v-model="formData.firstName"
           name="firstName"
@@ -81,34 +87,14 @@ const handleSubmit = async () => {
         />
         <Loader v-if="authStore.isLoading" color="#000" />
         <Button v-else type="submit" class="auth-form__button">Зарегистрироваться</Button>
-        <span class="ans-text"
-          >Вы уже зарегистрированы? <router-link to="/signin">Вход</router-link></span
-        >
       </form>
+      <span class="ans-text"
+        >Вы уже зарегистрированы? <router-link to="/signin">Вход</router-link></span
+      >
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 @use './Auth.module';
-
-.signup__banner {
-  width: 460px;
-  height: 100%;
-  background-color: #111012;
-  box-sizing: border-box;
-
-  .banner__content {
-    padding: 150px 10px 0 80px;
-    display: flex;
-    flex-direction: column;
-
-    .banner-logo {
-    }
-    .banner-title {
-      font-family: 'Roboto', sans-serif;
-      color: #fff;
-    }
-  }
-}
 </style>

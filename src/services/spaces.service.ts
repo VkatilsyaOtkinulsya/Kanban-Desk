@@ -1,12 +1,21 @@
-import axios from 'axios';
 import type { ProjectsData, Space } from '@/types/contentTypes';
 import { handleApiError } from '@/utils/error-handler';
+import axiosApiInstance from '@/api/api';
+
+const DATABASE_URL = import.meta.env.VITE_DATABASE_URL;
 
 export const SpacesService = {
   async getSpacesData(): Promise<Space[]> {
     try {
-      const response = await axios.get(`
-        https://jwt-tokens-firebase-add21-default-rtdb.europe-west1.firebasedatabase.app/spaces.json`);
+      const response = await axiosApiInstance.get(
+        `
+      ${DATABASE_URL}/spaces.json`,
+        {
+          params: {
+            auth: JSON.parse(localStorage.getItem('userTokens') || '{}').token,
+          },
+        }
+      );
       const data = response.data;
       localStorage.setItem(
         'spaces',

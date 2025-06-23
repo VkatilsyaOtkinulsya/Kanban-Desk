@@ -69,9 +69,13 @@ export const useAuthStore = defineStore('auth', () => {
       );
 
       userInfo.value = {
-        ...authData,
+        token: authData.idToken,
+        email: userData.email,
+        refreshToken: authData.refreshToken,
+        expiresIn: authData.expiresIn,
         userId: localId,
-        ...userData,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
       };
     } catch (err) {
       throw err;
@@ -93,6 +97,18 @@ export const useAuthStore = defineStore('auth', () => {
     }
   };
 
+  const logout = () => {
+    userInfo.value = {
+      token: '',
+      email: '',
+      refreshToken: '',
+      expiresIn: '',
+      userId: '',
+      firstName: '',
+      lastName: '',
+    };
+  };
+
   return {
     userInfo,
 
@@ -100,6 +116,7 @@ export const useAuthStore = defineStore('auth', () => {
     isLoading,
     register,
     login,
+    logout,
     initAuth,
     clearError: () => (error.value = ''),
   };
