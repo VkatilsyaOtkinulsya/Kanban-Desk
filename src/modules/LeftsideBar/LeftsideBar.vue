@@ -75,11 +75,15 @@ const logout = () => {
       </a>
       <div class="navigation__sections">
         <div class="navigation__sections-list">
-          <NavItem href="/main" label="Главная" tooltipText="Главная" :isOpened>
-            <MainIcon />
-          </NavItem>
+          <router-link to="/main">
+            <NavItem label="Главная" tooltipText="Главная" :isOpened>
+              <template #icon>
+                <MainIcon />
+              </template>
+            </NavItem>
+          </router-link>
           <NavItem href="/activity" label="Активность" tooltipText="Активность" :isOpened>
-            <ActivityIcon />
+            <template #icon><ActivityIcon /></template>
           </NavItem>
         </div>
         <div class="content__wrapper">
@@ -95,7 +99,7 @@ const logout = () => {
                 <p v-if="isOpened">Добавить пространство</p>
               </button>
               <Teleport to="body">
-                <Modal type="create" :show="showModal" @close="showModal = false"> </Modal>
+                <Modal type="create" :show="showModal" @close="showModal = false" />
               </Teleport>
             </div>
             <Loader v-if="showLoader" color="#fff" />

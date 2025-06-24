@@ -53,7 +53,6 @@ axiosApiInstance.interceptors.response.use(
         );
         return axios(originalRequest);
       } catch (err) {
-        console.log(err);
         localStorage.removeItem('userTokens');
         router.push('/signin');
         authStore.userInfo.token = '';

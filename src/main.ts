@@ -7,14 +7,7 @@ import App from './App.vue';
 import router from './router';
 import './api/api';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyDiJpQGgFwyh1MdP1zoc5QFW2Yg5DxNhNA',
-  authDomain: 'jwt-tokens-firebase-add21.firebaseapp.com',
-  projectId: 'jwt-tokens-firebase-add21',
-  storageBucket: 'jwt-tokens-firebase-add21.firebasestorage.app',
-  messagingSenderId: '785569551312',
-  appId: '1:785569551312:web:c69e8a53b30be43cda1fd5',
-};
+const firebaseConfig = import.meta.env.VITE_FIREBASE_CONFIG;
 
 const pinia = createPinia();
 initializeApp(firebaseConfig);

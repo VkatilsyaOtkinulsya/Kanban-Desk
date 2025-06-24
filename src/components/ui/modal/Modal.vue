@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import Input from '@/components/ui/input/Input.vue';
 
 interface Props {
@@ -16,7 +16,11 @@ const emit = defineEmits(['close', 'update', 'create']);
 
 const inputValue = ref(props.value || '');
 
-const handleDackdropClick = (event: MouseEvent) => {
+const placeholder = computed(() => {
+  return props.type === 'edit' ? `Введите ${props.field}` : 'Введите название пространства';
+});
+
+const handleBackdropClick = (event: MouseEvent) => {
   if (event.target === event.currentTarget) emit('close');
 };
 
@@ -32,7 +36,7 @@ const handleConfirm = () => {
 
 <template>
   <Transition name="modal">
-    <div v-if="show" class="modal-mask" @click="handleDackdropClick">
+    <div v-if="show" class="modal-mask" @click="handleBackdropClick">
       <div class="modal-container">
         <div class="modal-header">
           <p class="header-title">
@@ -46,14 +50,7 @@ const handleConfirm = () => {
         </div>
         <div class="modal-body">
           <slot name="body">
-            <Input
-              v-model="inputValue"
-              type="text"
-              placeholder="
-                props.type === 'edit' ? `Введите ${props.field}` : 'Введите название пространства'
-              "
-              class="modal-input"
-            />
+            <Input v-model="inputValue" type="text" :placeholder class="modal-input" required />
           </slot>
         </div>
         <div class="modal-footer">

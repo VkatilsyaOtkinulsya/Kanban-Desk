@@ -2,7 +2,7 @@
 import Tooltip from '@/components/ui/tooltip/Tooltip.vue';
 
 interface Props {
-  href: string;
+  href?: string;
   style?: string;
   label: string;
   tooltipText: string;
@@ -17,7 +17,7 @@ withDefaults(defineProps<Props>(), {
 <template>
   <a :href="href" class="nav-item" aria-describedby="link-tooltip" tabindex="0">
     <div class="icon-wrapper">
-      <slot></slot>
+      <slot name="icon"></slot>
     </div>
     <p v-show="isOpened">{{ label }}</p>
     <Tooltip
@@ -39,6 +39,7 @@ withDefaults(defineProps<Props>(), {
   color: rgb(242, 242, 242);
   display: flex;
   align-items: center;
+  justify-content: start;
   width: 100%;
   padding: 0 6px;
   height: 40px;
