@@ -139,12 +139,14 @@
 
 .content__wrapper {
   width: 100%;
+  transition: all 1s ease-in-out;
   .content__space-list {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 2px;
+    transition: all 1s ease-in-out;
 
     .space-list {
     }

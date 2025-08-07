@@ -19,7 +19,7 @@ withDefaults(defineProps<Props>(), {
     <div class="icon-wrapper">
       <slot name="icon"></slot>
     </div>
-    <p v-show="isOpened">{{ label }}</p>
+    <p v-if="isOpened">{{ label }}</p>
     <Tooltip
       id="link-tooltip"
       :text="tooltipText"
@@ -49,6 +49,12 @@ withDefaults(defineProps<Props>(), {
   &:hover {
     background: #333333;
     border-radius: 6px;
+  }
+
+  p {
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
   }
 
   .icon-wrapper {

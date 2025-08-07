@@ -3,9 +3,8 @@ import ProjectItemIcon from '@/components/icons/ProjectItemIcon.vue';
 import Loader from '@/components/ui/loader/Loader.vue';
 import Modal from '@/components/ui/modal/Modal.vue';
 import EditableTitle from '@/components/ui/title/EditableTitle.vue';
-import { SpacesService } from '@/services/spaces.service';
-import { handleApiError } from '@/utils/error-handler';
-import { onMounted, ref, watch } from 'vue';
+import { useSpacesStore } from '@/stores/spaces.store';
+import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 defineProps<{
@@ -13,37 +12,22 @@ defineProps<{
 }>();
 
 const route = useRoute();
-const projects = ref<string[]>([]);
 const isLoading = ref(false);
 const spaceId = ref(route.params.spaceId as string);
 const showModal = ref(false);
 
-const loadSpaceData = async () => {
-  isLoading.value = true;
-  try {
-    const response = SpacesService.getProjects(route.params.spaceId as string);
-    projects.value = Object.keys(response);
-    return projects.value;
-  } catch (err) {
-    handleApiError(err, {
-      context: 'Не удалось загрузить данные пространств',
-    });
-  } finally {
-    isLoading.value = false;
-  }
-};
-
-onMounted(() => {
-  loadSpaceData();
-});
+const spaceStore = useSpacesStore();
 
 watch(
   () => route.params.spaceId,
   (newSpaceId) => {
     spaceId.value = newSpaceId as string;
-    loadSpaceData();
-  }
+    spaceStore.currentSpaceId = spaceId.value;
+  },
+  { immediate: true }
 );
+
+const currentProjects = computed(() => spaceStore.currentProjects);
 </script>
 
 <template>
@@ -52,22 +36,23 @@ watch(
       <EditableTitle />
     </div>
     <Loader v-if="isLoading" color="#fff" />
-    <div v-else-if="projects" class="projects-list">
-      <template v-for="(project, index) in projects" :key="'project-' + index">
-        <div class="project-item__link">
-          <div class="icon-wrapper">
-            <ProjectItemIcon />
+    <div v-else-if="currentProjects" class="projects-list">
+      <template v-for="(project, index) in currentProjects" :key="'project-' + index">
+        <router-link
+          :to="{
+            name: 'project-tasks',
+            params: { spaceId: spaceId, projectId: project.id },
+          }"
+        >
+          <div class="project-item__link">
+            <div class="icon-wrapper">
+              <ProjectItemIcon />
+            </div>
+
+            {{ project.name }}
           </div>
-          <router-link
-            :to="{
-              name: 'project-tasks',
-              params: { spaceId: spaceId, projectName: project.replace(' ', '-') },
-            }"
-          >
-            {{ project }}
-          </router-link>
-        </div>
-        <div v-if="index < projects.length - 1" class="separator"></div>
+          <div v-if="index < currentProjects.length - 1" class="separator"></div>
+        </router-link>
       </template>
     </div>
     <div v-else>
@@ -127,6 +112,11 @@ watch(
     display: flex;
     flex-direction: column;
     padding: 8px 10px 10px;
+
+    a {
+      text-decoration: none;
+      color: #111012;
+    }
 
     .project-item__link {
       display: flex;

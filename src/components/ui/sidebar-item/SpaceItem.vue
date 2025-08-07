@@ -18,7 +18,7 @@ withDefaults(defineProps<Props>(), {
 
 <template>
   <a
-    :href="'/space/' + index + '/projects'"
+    :href="'/space/' + space.id + '/projects'"
     class="nav-item"
     aria-describedby="link-tooltip"
     tabindex="0"
@@ -26,7 +26,7 @@ withDefaults(defineProps<Props>(), {
     <div class="icon-wrapper">
       <slot name="icon"></slot>
     </div>
-    <p v-show="isOpened">
+    <p v-if="isOpened">
       <slot name="label"></slot>
     </p>
     <Tooltip
@@ -57,6 +57,15 @@ withDefaults(defineProps<Props>(), {
   &:hover {
     background: #333333;
     border-radius: 6px;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    white-space: nowrap;
+    margin: 0;
+    flex-shrink: 0;
   }
 
   .icon-wrapper {

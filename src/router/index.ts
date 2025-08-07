@@ -42,9 +42,9 @@ const routes: RouteRecordRaw[] = [
             props: true,
           },
           {
-            path: ':projectName/tasks',
+            path: ':projectId/tasks',
             name: 'project-tasks',
-            component: () => import('@/components/ui/loader/Loader.vue'),
+            component: () => import('@/modules/Space/SpaceProjectTasks.vue'),
             props: true,
           },
         ],

@@ -13,9 +13,9 @@ import {
   ToggleIcon,
 } from '@/components/icons/index.ts';
 import { defineAsyncComponent, ref } from 'vue';
-import type { Space } from '@/types/contentTypes';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth.store';
+import type { Space } from '@/models/space.model';
 
 defineProps<{
   spaces: Space[];
@@ -107,7 +107,7 @@ const logout = () => {
               <router-link
                 v-for="(space, index) in spaces"
                 :key="space.id"
-                :to="{ name: 'space-projects', params: { spaceId: index } }"
+                :to="{ name: 'space-projects', params: { spaceId: space.id } }"
               >
                 <SpaceItem :space :index :isOpened>
                   <template #icon>

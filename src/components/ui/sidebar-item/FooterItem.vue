@@ -23,7 +23,7 @@ withDefaults(defineProps<Props>(), {
         <div class="icon-wrapper">
           <slot name="icon"></slot>
         </div>
-        <p v-show="isOpened">{{ label }}</p>
+        <p v-if="isOpened">{{ label }}</p>
       </button>
       <Tooltip id="link-tooltip" :text="tooltipText" role="tooltip" position="right" />
     </template>
@@ -31,7 +31,7 @@ withDefaults(defineProps<Props>(), {
       <div class="icon-wrapper">
         <slot name="icon"></slot>
       </div>
-      <p v-show="isOpened">{{ label }}</p>
+      <p v-if="isOpened">{{ label }}</p>
       <Tooltip id="link-tooltip" :text="tooltipText" role="tooltip" position="right" />
     </template>
   </a>
@@ -53,6 +53,15 @@ withDefaults(defineProps<Props>(), {
   &:hover {
     background: #333333;
     border-radius: 6px;
+  }
+
+  p {
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .icon-wrapper {

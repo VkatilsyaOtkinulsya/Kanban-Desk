@@ -48,6 +48,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const { localId, ...authData } = await signIn(payload);
       const userData = await AuthService.getUserData(localId, authData.idToken);
+      console.log(userData);
 
       localStorage.setItem(
         'userTokens',
@@ -62,8 +63,8 @@ export const useAuthStore = defineStore('auth', () => {
       localStorage.setItem(
         'userData',
         JSON.stringify({
-          firstName: userData.firstName,
-          lastName: userData.lastName,
+          firstName: userData.firstName ?? '',
+          lastName: userData.lastName ?? '',
           email: userData.email,
         })
       );

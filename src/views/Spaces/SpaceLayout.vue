@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { SpaceIcon } from '@/components/icons/index';
+import { useSpacesStore } from '@/stores/spaces.store';
 
 defineProps<{
   spaceId: string;
@@ -10,9 +11,8 @@ defineProps<{
 const route = useRoute();
 const spaceId = ref(route.params.spaceId as string);
 
-const spaceName = computed(() => {
-  return JSON.parse(localStorage.getItem('spaces') as string).data[spaceId.value].name;
-});
+const spaceStore = useSpacesStore();
+const spaceName = computed(() => spaceStore.spaces.find((s) => s.id === spaceId.value)?.name);
 
 watch(
   () => route.params.spaceId,
@@ -52,7 +52,7 @@ watch(
   gap: 14px;
   box-sizing: border-box;
 
-  margin-bottom: 45px;
+  margin-bottom: 30px;
 
   .nav-item {
     display: flex;
