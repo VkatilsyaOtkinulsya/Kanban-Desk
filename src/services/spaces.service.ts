@@ -1,5 +1,6 @@
-import type { ProjectType, SpaceType } from '@/types/space';
-import { handleApiError } from '@/utils/error-handler';
+import type { SpaceType } from '@/types/space.types';
+import type { ProjectType } from '@/types/project.types';
+import { handleApiError } from '@/lib/utils/error-handler';
 import axiosApiInstance from '@/api/api';
 import { Space } from '@/models/space.model';
 import { Project } from '@/models/project.model';
@@ -33,23 +34,4 @@ export const SpacesService = {
       throw err;
     }
   },
-
-  // getProjects(path: string): ProjectsData {
-  //   try {
-  //     const response = localStorage.getItem('spaces');
-  //     if (!response) throw new Error('Не удалось загрузить данные пространств');
-
-  //     const data = JSON.parse(response).data;
-  //     const projects: ProjectsData = {
-  //       projects: data.find((space: SpaceType) => space.id === path).projects,
-  //     };
-
-  //     return projects;
-  //   } catch (err) {
-  //     handleApiError(err, {
-  //       context: 'Не удалось загрузить данные пространств',
-  //     });
-  //     throw err;
-  //   }
-  // },
 };

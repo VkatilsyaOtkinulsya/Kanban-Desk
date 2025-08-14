@@ -1,5 +1,5 @@
 import { AuthService } from '@/services/auth.service';
-import { type SignInRequest, type SignUpRequest } from '@/types/authTypes';
+import { type SignInRequest, type SignUpRequest } from '@/types/auth.types';
 import { ref } from 'vue';
 
 export const useAuth = () => {

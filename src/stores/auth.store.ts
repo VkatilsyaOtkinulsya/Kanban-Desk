@@ -1,6 +1,6 @@
-import { useAuth } from '@/composables/useAuth';
+import { useAuth } from '@/hooks/auth/useAuth';
 import { AuthService } from '@/services/auth.service';
-import type { SignInRequest, SignUpRequest, UserInfo } from '@/types/authTypes';
+import type { SignInRequest, SignUpRequest, UserInfo } from '@/types/auth.types';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
@@ -21,6 +21,8 @@ export const useAuthStore = defineStore('auth', () => {
       const { localId, idToken, refreshToken, expiresIn, email } = await signUp(payload);
       const userData = await AuthService.getUserData(localId, idToken);
 
+      if (!userData) return;
+
       userInfo.value = {
         token: idToken,
         email,
@@ -30,6 +32,7 @@ export const useAuthStore = defineStore('auth', () => {
         firstName: userData.firstName,
         lastName: userData.lastName,
       };
+      console.log(userInfo.value);
 
       localStorage.setItem(
         'userTokens',
@@ -48,7 +51,6 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const { localId, ...authData } = await signIn(payload);
       const userData = await AuthService.getUserData(localId, authData.idToken);
-      console.log(userData);
 
       localStorage.setItem(
         'userTokens',
@@ -59,6 +61,8 @@ export const useAuthStore = defineStore('auth', () => {
           userId: localId,
         })
       );
+
+      if (!userData) return;
 
       localStorage.setItem(
         'userData',

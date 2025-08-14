@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth.store';
-import Input from '@/components/ui/input/Input.vue';
-import Button from '@/components/ui/button/Button.vue';
+import Input from '@/components/ui/selfmade-input/Input.vue';
+import Button from '@/components/ui/custom-button/Button.vue';
 import { reactive } from 'vue';
 import Loader from '@/components/ui/loader/Loader.vue';
 import { useRouter } from 'vue-router';

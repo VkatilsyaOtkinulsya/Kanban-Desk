@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { SpacesService } from '@/services/spaces.service';
 import { Space } from '@/models/space.model';
 import { Project } from '@/models/project.model';
-import { handleApiError } from '@/utils/error-handler';
+import { handleApiError } from '@/lib/utils/error-handler';
 
 export const useSpacesStore = defineStore('spaces', {
   state: () => ({

@@ -11,8 +11,7 @@ defineProps<{
 const route = useRoute();
 const spaceId = ref(route.params.spaceId as string);
 
-const spaceStore = useSpacesStore();
-const spaceName = computed(() => spaceStore.spaces.find((s) => s.id === spaceId.value)?.name);
+const { spaces: data, space } = useSpacesQuery(spaceId.value);
 
 watch(
   () => route.params.spaceId,
@@ -28,7 +27,7 @@ watch(
       <div class="nav-item">
         <SpaceIcon :color="'#000'" :size="18" />
         <router-link :to="{ name: 'space-projects', params: { spaceId } }">
-          {{ spaceName }}
+          {{ space.name }}
         </router-link>
       </div>
     </div>

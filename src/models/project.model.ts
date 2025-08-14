@@ -1,5 +1,4 @@
-import type { ProjectType } from '@/types/space';
-
+import type { ProjectType } from '@/types/project.types';
 export class Project implements ProjectType {
   public id: string;
   public name: string;

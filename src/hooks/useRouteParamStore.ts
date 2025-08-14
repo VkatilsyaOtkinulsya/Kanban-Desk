@@ -3,7 +3,7 @@ import { useRoute } from 'vue-router';
 
 export function useRouteParamStore<T>(
   paramName: string,
-  store: { [key: string]: any },
+  store: { [key: string]: T },
   storeKey: string
 ) {
   const route = useRoute();
@@ -14,7 +14,7 @@ export function useRouteParamStore<T>(
   watch(
     () => route.params[paramName],
     (newId) => {
-      store[storeKey] = newId as string;
+      store[storeKey] = newId as T;
     },
     { immediate: true }
   );

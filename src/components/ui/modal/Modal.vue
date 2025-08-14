@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import Input from '@/components/ui/input/Input.vue';
+import Input from '@/components/ui/selfmade-input/Input.vue';
 
 interface Props {
   show: boolean;

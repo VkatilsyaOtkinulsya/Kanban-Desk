@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import NotificationModal from '@/components/ui/modal/NotificationModal.vue';
-import { registerNotificationComponent } from '@/utils/error-handler';
-import { useCheckAuth } from './composables/useCheckAuth';
+import { registerNotificationComponent } from '@/lib/utils/error-handler';
+import { useCheckAuth } from './hooks/auth/useCheckAuth';
 import type { NotificationComponent } from './types/notification';
 
 const notificationRef = ref<NotificationComponent | null>(null);

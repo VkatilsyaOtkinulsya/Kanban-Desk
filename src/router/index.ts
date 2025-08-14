@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
-import type { AuthToken } from '@/types/authTypes';
+import type { AuthToken } from '@/types/auth.types';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -45,7 +45,9 @@ const routes: RouteRecordRaw[] = [
             path: ':projectId/tasks',
             name: 'project-tasks',
             component: () => import('@/modules/Space/SpaceProjectTasks.vue'),
-            props: true,
+            props: (route) => ({
+              project: route.meta.project,
+            }),
           },
         ],
       },

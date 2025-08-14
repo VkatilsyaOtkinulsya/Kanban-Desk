@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ProjectItemIcon from '@/components/icons/ProjectItemIcon.vue';
 import Loader from '@/components/ui/loader/Loader.vue';
+import AddProjectModal from '@/components/ui/modal/AddProjectModal.vue';
 import Modal from '@/components/ui/modal/Modal.vue';
 import EditableTitle from '@/components/ui/title/EditableTitle.vue';
 import { useSpacesStore } from '@/stores/spaces.store';
@@ -59,31 +60,7 @@ const currentProjects = computed(() => spaceStore.currentProjects);
       <p>Пространство пустое</p>
     </div>
     <div class="projects-list_add-project">
-      <button
-        id="add-project-button show-modal"
-        @click="showModal = true"
-        class="add-project__button"
-      >
-        <svg
-          data-v-b51b669c=""
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          class="flex-none"
-        >
-          <path
-            data-v-b51b669c=""
-            d="M8.83431 13.3337V8.00033M8.83431 8.00033V2.66699M8.83431 8.00033H14.1676M8.83431 8.00033H3.50098"
-            stroke="#111012"
-            stroke-opacity="0.75"
-            stroke-width="1.6"
-            stroke-linecap="round"
-          ></path>
-        </svg>
-        <p class="btn-text">Добавить проект</p>
-      </button>
+      <AddProjectModal />
       <Teleport to="body">
         <Modal type="create" :show="showModal" @close="showModal = false" />
       </Teleport>
@@ -94,6 +71,7 @@ const currentProjects = computed(() => spaceStore.currentProjects);
 <style scoped lang="scss">
 .projects-wrapper {
   display: block;
+  width: 50%;
   margin: 0px 50px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
   padding: 26px 0 10px 10px;

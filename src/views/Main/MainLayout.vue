@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import LeftsideBar from '@/modules/LeftsideBar/LeftsideBar.vue';
 import { ref, onMounted } from 'vue';
-import { handleApiError } from '@/utils/error-handler';
+import { handleApiError } from '@/lib/utils/error-handler';
 import { useAuthStore } from '@/stores/auth.store';
 import { useSpacesStore } from '@/stores/spaces.store';
 

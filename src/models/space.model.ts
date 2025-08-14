@@ -1,4 +1,5 @@
-import type { ProjectType, SpaceType } from '@/types/space';
+import type { SpaceType } from '@/types/space.types';
+import type { ProjectType } from '@/types/project.types';
 import { Project } from './project.model';
 
 export class Space implements SpaceType {
